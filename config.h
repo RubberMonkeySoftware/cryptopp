@@ -430,10 +430,9 @@ NAMESPACE_END
 
 // You may need to force include a C++ header on Android when using STLPort to ensure
 // _STLPORT_VERSION is defined: CXXFLAGS="-DNDEBUG -g2 -O2 -std=c++11 -include iosfwd"
-// TODO: Figure out C++17 and lack of std::uncaught_exception
-#if (defined(_MSC_VER) && _MSC_VER <= 1300) || defined(__MWERKS__) || (defined(_STLPORT_VERSION) && ((_STLPORT_VERSION < 0x450) || defined(_STLP_NO_UNCAUGHT_EXCEPT_SUPPORT)))
+
+// Totally disable std::uncaught_exception
 #define CRYPTOPP_DISABLE_UNCAUGHT_EXCEPTION
-#endif
 
 #ifndef CRYPTOPP_DISABLE_UNCAUGHT_EXCEPTION
 #define CRYPTOPP_UNCAUGHT_EXCEPTION_AVAILABLE
@@ -934,12 +933,6 @@ NAMESPACE_END
 #if defined(CRYPTOPP_CXX11_CONSTEXPR)
 # undef CRYPTOPP_CONSTANT
 # define CRYPTOPP_CONSTANT(x) constexpr static int x;
-#endif
-
-// OK to comment the following out, but please report it so we can fix it.
-// C++17 value taken from http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4567.pdf.
-#if (defined(__cplusplus) && (__cplusplus >= 199711L) && (__cplusplus < 201402L)) && !defined(CRYPTOPP_UNCAUGHT_EXCEPTION_AVAILABLE)
-# error "std::uncaught_exception is not available. This is likely a configuration error."
 #endif
 
 #endif
